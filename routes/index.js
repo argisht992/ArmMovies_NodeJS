@@ -10,7 +10,7 @@ function getDataFromDB(res) {
   var db = new sqlite.Database('database');
   //"SELECT name, year FROM movies"
   db.serialize(function() {
-    db.each("SELECT name, description, link, views, year, rate FROM movies ORDER BY year DESC", function (err, row) {
+    db.each("SELECT id, name, description, link, views, year, rate FROM movies ORDER BY year DESC", function (err, row) {
       if (err) {
         //TODO: show error message
         console.log("can't read database");
@@ -25,22 +25,7 @@ function getDataFromDB(res) {
 }
 
 function dbListener(movies, res, db) {
-  /**
-   * send response to user
-   * when two parallel requests
-   * are complated successfully
-   */
-  /////////////////////////
-  /*fs.readFile('public/images/paxirkamamusnacir.jpg', function(err, data) {
-    var b = data.toString('base64');
-    db.run("UPDATE movies SET image = ? WHERE id = ?", [ b, 1 ]);
-  });*/
-
-      //////////////////////////////
-  /**
-   * arrayList [newMoview, topMovies]
-   */
-    var json = makeJSON(movies);
+   var json = makeJSON(movies);
     try {
       res.setHeader('Content-Type', 'application/json');
       res.send(json);
